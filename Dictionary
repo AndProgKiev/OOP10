@@ -1,0 +1,56 @@
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
+
+public class Dictionary implements Serializable {
+   private Map<String,String> englishDictionary =new HashMap<>();
+
+
+    public Dictionary() {
+        englishDictionary.put("Java", "Джава");
+        englishDictionary.put("is","є");
+        englishDictionary.put("the","");
+        englishDictionary.put("best", "найкращою");
+        englishDictionary.put("lenguange", "мовою");
+        englishDictionary.put("in", "в");
+        englishDictionary.put("world", "світі");
+        englishDictionary.put(".", ".");
+    }
+
+    public Dictionary(Map<String, String> d) {
+        this.englishDictionary = d;
+    }
+
+    public Map<String, String> getEnglishDictionary() {
+        return englishDictionary;
+    }
+
+    public void setEnglishDictionary(Map<String, String> englishDictionary) {
+        this.englishDictionary = englishDictionary;
+    }
+
+    public void writeDictionaryToFile(String filePath)throws IOException {
+        try (ObjectOutputStream objectOutputStream=new ObjectOutputStream(new FileOutputStream(filePath))){
+            objectOutputStream.writeObject(this);
+
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void addWords(String s1, String s2){
+    englishDictionary.put(s1,s2);
+    }
+
+    @Override
+    public String toString() {
+
+        return "Dictionary{" +
+                "englishDictionary=" + englishDictionary +
+                '}';
+    }
+}
