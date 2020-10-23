@@ -1,0 +1,34 @@
+
+import java.io.IOException;
+
+public class TranslationRun {
+    public static void main(String[] args) {
+        Translation t=new Translation();
+        t.addWordToDictionary("home","дім"); // додаємо слова до словника
+        t.addWordToDictionary("Sweet","милий");
+
+        try {
+            t.saveDictionaryToFile("D:\\Test\\Dictionary.out");// зберігаємо словник
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        try {
+            t.readFromFile("D:\\Test\\English.in"); // читаємо текс для перекладу
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+        t.translate();
+
+       try {
+           t.writeToFile("D:\\Test\\Ukrainian.txt");//зберігаємо перекладений текст
+       }catch (IOException e){
+           e.printStackTrace();
+       }
+
+        System.out.println(t.getUkrList());
+        System.out.println(t.getDictionary());
+
+    }
+}
