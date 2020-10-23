@@ -1,0 +1,91 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+public class Translation {
+    private List<String> englishList=new ArrayList<>();
+    private List<String> ukrList=new ArrayList<>();
+    private Dictionary dictionary=new Dictionary();
+
+    public Translation() {
+    }
+
+    public List<String> getEnglishList() {
+        return englishList;
+    }
+
+    public Map<String, String> getDictionary() {
+        return dictionary.getEnglishDictionary();
+    }
+
+    public List<String> getUkrList() {
+        return ukrList;
+    }
+
+    public void setEnglishList(List<String> englishList) {
+        this.englishList = englishList;
+    }
+
+    public void setDictionary(Map<String, String> dictionary) {
+        this.dictionary.setEnglishDictionary(dictionary);
+    }
+
+    public void setUkrList(List<String> ukrList) {
+        this.ukrList = ukrList;
+    }
+
+
+    public void translate(){
+        for (String word:englishList) {
+          ukrList.add(dictionary.getEnglishDictionary().get(word));
+        }
+
+    }
+
+    public void readFromFile(String dataBase) throws IOException {
+        try (BufferedReader reader=new BufferedReader(new FileReader(dataBase))){
+            String line;
+            while ((line=reader.readLine())!=null){
+                String[] sentence=line.split(".",1);
+
+                for (int i = 0; i <sentence.length ; i++) {
+
+                    String[] words=sentence[i].split(" ");
+
+                    for (int j = 0; j <words.length ; j++) {
+                        System.out.println(words[j]);
+                        englishList.add(words[j]);
+                    }
+                }
+            }
+
+        }catch (FileNotFoundException e){
+            e.printStackTrace();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void writeToFile(String fileName) throws IOException{
+        String s=new String();
+        try (PrintWriter writer=new PrintWriter(new FileOutputStream(fileName))){
+            for (String word:ukrList) {
+                s+=word+" ";
+            }
+            writer.println(s);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void addWordToDictionary(String englishString,String ukrString){
+        dictionary.addWords(englishString,ukrString);
+    }
+
+    public void saveDictionaryToFile(String filepath)throws IOException{
+        dictionary.writeDictionaryToFile(filepath);
+    }
+}
